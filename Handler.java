@@ -10,7 +10,7 @@ public class Handler
     /**
      * this method is invoked by a separate thread
      */
-    public void process(Socket client, ArrayList clients) throws java.io.IOException {
+    public void process(Socket client, ArrayList clients, ArrayList clientUsernames) throws java.io.IOException {
         DataOutputStream toClient = null;
         int count = 0;
 

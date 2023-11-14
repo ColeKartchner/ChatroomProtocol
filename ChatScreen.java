@@ -25,7 +25,7 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener
     private JTextField sendText;
     private JTextArea displayArea;
 
-    public static final int PORT = 5040;
+    public static final int PORT = 5045;
 
     public ChatScreen() {
         /**
@@ -157,6 +157,13 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener
         try {
             Socket annoying = new Socket(args[0], PORT);
             ChatScreen win = new ChatScreen();
+            //
+            if (args[1].length() > 20) {
+                win.displayMessage("Username must be less than 20 characters");
+            }
+            else if (args[1].length() < 1) {
+                win.displayMessage("Username must be more than 0 characters");
+            }
             win.displayMessage("My name is " + args[1]);
 
             Thread ReaderThread = new Thread(new ReaderThread(annoying, win));
