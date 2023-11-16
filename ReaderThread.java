@@ -24,7 +24,6 @@ public class ReaderThread implements Runnable
 
             while (true) {
                 String message = fromServer.readLine();
-
                 // now display it on the display area
                 screen.displayMessage(message);
             }

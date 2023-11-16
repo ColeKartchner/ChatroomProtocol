@@ -156,22 +156,28 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener
     public static void main(String[] args) {
         try {
             Socket annoying = new Socket(args[0], PORT);
+            // Writer that converts args[1] to the handler, so we can check it
+            PrintWriter writer = new PrintWriter(annoying.getOutputStream(), true);
+            // Reader that reads in the input returned from handler
+            BufferedReader reader = new BufferedReader(new InputStreamReader(annoying.getInputStream()));
+            // This is what actually writes to the Handler
+            writer.println("user<" + args[1] + ">");
+            // This reads in the code(1, 2, 3, or 4 returned from handler)
+            String usernameCode = reader.readLine();
+            // This creates the chatscreen UI
             ChatScreen win = new ChatScreen();
-            //
-            if (args[1].length() > 20) {
-                win.displayMessage("Username must be less than 20 characters");
-            }
-            else if (args[1].length() < 1) {
-                win.displayMessage("Username must be more than 0 characters");
-            }
-            win.displayMessage("My name is " + args[1]);
+            win.displayMessage("My name is " + usernameCode);
 
             Thread ReaderThread = new Thread(new ReaderThread(annoying, win));
 
             ReaderThread.start();
         }
-        catch (UnknownHostException uhe) { System.out.println(uhe); }
-        catch (IOException ioe) { System.out.println(ioe); }
+        catch (UnknownHostException uhe) {
+                System.out.println(uhe);
+            }
+
+        catch (IOException ioe) {
+            System.out.println(ioe); }
 
 
     }
