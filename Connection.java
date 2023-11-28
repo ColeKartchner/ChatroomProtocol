@@ -17,8 +17,6 @@ public class Connection implements Runnable
 
     }
 
-
-
     /**
      * This method runs in a separate thread.
      */

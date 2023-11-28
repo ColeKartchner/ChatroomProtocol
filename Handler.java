@@ -23,16 +23,81 @@ public class Handler
             BufferedReader fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
             fromChatscreen = new BufferedInputStream(client.getInputStream());
 
+            String message = fromClient.readLine();
+            int startIndex = message.indexOf('<');
+            int endIndex = message.indexOf('>');
+            String command = message.substring(0, startIndex);
+            long countOpenBrackets = message.chars().filter(ch -> ch == '<').count();
+            long countCloseBrackets = message.chars().filter(ch -> ch == '>').count();
+            long countComma = message.chars().filter(ch -> ch == ',').count();
+            String parsedUser = message.substring(startIndex + 1, endIndex);
 
-            String username = fromClient.readLine();
-            System.out.println(username);
+            if (command.equals("user")) {
+                if (countOpenBrackets > 1 || countCloseBrackets > 1 || countComma > 0) {
+                    toClient.writeBytes("2\n");
+                    toClient.writeBytes(parsedUser + "\n");
+                    toClient.flush();
+                } else if (parsedUser.length() > 20) {
+                    toClient.writeBytes("3\n");
+                    toClient.writeBytes(parsedUser + "\n");
+                    toClient.flush();
+                    System.out.println("anything");
+                } else if (clientUsernames.contains(parsedUser)) {
+                    toClient.writeBytes("1\n");
+                    toClient.writeBytes(parsedUser + "\n");
+                    toClient.flush();
+                } else {
+                    toClient.writeBytes("4\n");
+                    toClient.writeBytes(parsedUser + "\n");
+                    toClient.flush();
+                    System.out.println("4");
+                }
+            } else if (command.equals("private")) {
+                if (countOpenBrackets > 1 || countCloseBrackets > 1) {
+                    toClient.writeBytes("6\n");
+                    toClient.writeBytes(parsedUser + "\n");
+                    toClient.flush();
+                } else if (parsedUser.length() > 1024) {
+                    toClient.writeBytes("5\n");
+                    toClient.writeBytes(parsedUser + "\n");
+                    toClient.flush();
+                } else {
+                    toClient.writeBytes("7\n");
+                    toClient.writeBytes(parsedUser + "\n");
+                    toClient.flush();
+                }
+            } else if (command.equals("broadcast")) {
+                if (countOpenBrackets > 1 || countCloseBrackets > 1) {
+                    toClient.writeBytes("6\n");
+                    toClient.writeBytes(parsedUser + "\n");
+                    toClient.flush();
+                } else if (parsedUser.length() > 1024) {
+                    toClient.writeBytes("5\n");
+                    toClient.writeBytes(parsedUser + "\n");
+                    toClient.flush();
+                } else {
+                    toClient.writeBytes("7\n");
+                    toClient.writeBytes(parsedUser + "\n");
+                    toClient.flush();
+                }
+            } else if (command.equals("userlist")) {
+                toClient.writeBytes(clientUsernames + "\n");
+            } else if (command.equals("exit")) {
+                clientUsernames.remove(parsedUser);
+            }
+
+
+
+
+
+
             int numBytes;
 
             //clients.add adds the clients into their own arraylist
-            clients.add(client);
+            clientUsernames.add(parsedUser);
 
             while (true) {
-                String message = "[" + count + clients + fromChatscreen + "]";
+                String outputMessage = "[" + count + clients + fromChatscreen + "]";
                 BufferedWriter broadcast;
                 toClient.writeBytes(message);
 

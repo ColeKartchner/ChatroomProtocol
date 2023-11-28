@@ -162,15 +162,53 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener
             BufferedReader reader = new BufferedReader(new InputStreamReader(annoying.getInputStream()));
             // This is what actually writes to the Handler
             writer.println("user<" + args[1] + ">");
-            // This reads in the code(1, 2, 3, or 4 returned from handler)
             String usernameCode = reader.readLine();
-            // This creates the chatscreen UI
-            ChatScreen win = new ChatScreen();
-            win.displayMessage("My name is " + usernameCode);
+            System.out.println(usernameCode);
+            String parsedUsername = reader.readLine();
+            System.out.println(parsedUsername);
+            // This reads in the code(1, 2, 3, or 4 returned from handler)
 
-            Thread ReaderThread = new Thread(new ReaderThread(annoying, win));
+            // if handler.java returns 1, means username is taken
+            if (usernameCode.equals("1")) {
+                System.out.println("That Username is already taken, try again");
+            }
 
-            ReaderThread.start();
+            if (usernameCode.equals("2")) {
+                System.out.println("Reserved characters are present in this Username, try again");
+            }
+
+            if (usernameCode.equals("3")) {
+                System.out.println("Username must be less than 20 characters");
+            }
+
+            if (usernameCode.equals("4")) {
+                System.out.println("Success!");
+
+                // This creates the chatscreen UI
+                ChatScreen win = new ChatScreen();
+                win.displayMessage("My name is " + parsedUsername);
+                win.displayMessage("To leave the chat type 'EXIT', " +
+                        "if you want to type a private message type PRIVATE 'username'");
+
+                Thread ReaderThread = new Thread(new ReaderThread(annoying, win));
+
+                ReaderThread.start();
+
+                String messageCode = reader.readLine();
+
+                if (messageCode.equals("5")) {
+                    System.out.println("Message can't be < 0 characters and can't be > 1024 characters");
+                }
+
+                if (messageCode.equals("6")) {
+                    System.out.println("Message has reserved characters in it");
+                }
+
+                if (messageCode.equals("7")) {
+                    System.out.println("Good message lad");
+                    ReaderThread.start();
+                }
+            }
         }
         catch (UnknownHostException uhe) {
                 System.out.println(uhe);
