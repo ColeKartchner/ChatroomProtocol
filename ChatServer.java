@@ -15,6 +15,8 @@ public class ChatServer
 
     // construct a thread pool for concurrency
     private static final Executor exec = Executors.newCachedThreadPool();
+
+
     public static void main(String[] args) throws IOException {
         ServerSocket sock = null;
 
@@ -25,18 +27,22 @@ public class ChatServer
             // iterate through the clients to write message to all of them
             ArrayList<String> clients = new ArrayList<String>();
             ArrayList<String> clientUsernames = new ArrayList<String>();
-
+            ArrayList<String> messageQueue = new ArrayList<>();
+            ArrayList<DataOutputStream> dataOutputList = new ArrayList<>();
+            Thread BroadcastThread = new Thread(new BroadcastThread(messageQueue, dataOutputList));
+            BroadcastThread.start();
                 while (true) {
                 /**
                  * now listen for connections
                  * and service the connection in a separate thread.
                  */
 
-                Runnable task = new Connection(sock.accept(), clients, clientUsernames);
+                Runnable task = new Connection(sock.accept(), clients, clientUsernames, messageQueue, dataOutputList);
                 System.out.println(task);
                 exec.execute(task);
             }
         }
+
         catch (IOException ioe) { System.err.println(ioe); }
         finally {
             if (sock != null)

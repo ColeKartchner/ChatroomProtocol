@@ -24,6 +24,9 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener
     private JButton exitButton;
     private JTextField sendText;
     private JTextArea displayArea;
+    private Socket server;
+    private PrintWriter writer;
+    private BufferedReader reader;
 
     public static final int PORT = 5045;
 
@@ -155,11 +158,11 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener
 
     public static void main(String[] args) {
         try {
-            Socket annoying = new Socket(args[0], PORT);
+            Socket server = new Socket(args[0], PORT);
             // Writer that converts args[1] to the handler, so we can check it
-            PrintWriter writer = new PrintWriter(annoying.getOutputStream(), true);
+            PrintWriter writer = new PrintWriter(server.getOutputStream(), true);
             // Reader that reads in the input returned from handler
-            BufferedReader reader = new BufferedReader(new InputStreamReader(annoying.getInputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(server.getInputStream()));
             // This is what actually writes to the Handler
             writer.println("user<" + args[1] + ">");
             String usernameCode = reader.readLine();
@@ -190,9 +193,11 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener
                 win.displayMessage("To leave the chat type 'EXIT', " +
                         "if you want to type a private message type PRIVATE 'username'");
 
-                Thread ReaderThread = new Thread(new ReaderThread(annoying, win));
+                Thread ReaderThread = new Thread(new ReaderThread(server, win));
 
                 ReaderThread.start();
+
+                writer.println("broadcast<" + args[1] + ",1:00," + ReaderThread + ">");
 
                 String messageCode = reader.readLine();
 

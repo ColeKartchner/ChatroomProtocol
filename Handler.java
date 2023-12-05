@@ -9,7 +9,7 @@ public class Handler
      */
     public static final int BUFFER_SIZE = 256;
 
-    public void process(Socket client, ArrayList clients, ArrayList clientUsernames) throws java.io.IOException {
+    public void process(Socket client, ArrayList clients, ArrayList clientUsernames, ArrayList messageQueue, ArrayList dataOutputList) throws java.io.IOException {
         DataOutputStream toClient = null;
         BufferedInputStream fromChatscreen = null;
         int count = 0;
@@ -18,6 +18,7 @@ public class Handler
             byte[] buffer = new byte[BUFFER_SIZE];
             // This toClient will write back whatever numberCode the username produces back to ChatScreen
             toClient = new DataOutputStream(client.getOutputStream());
+            dataOutputList.add(toClient);
             // This fromChatscreen reads in the username sent by ChatScreen
             // fromChatscreen = new BufferedReader();
             BufferedReader fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -48,6 +49,7 @@ public class Handler
                     toClient.flush();
                 } else {
                     toClient.writeBytes("4\n");
+                    //store BWriter in an ArrayList
                     toClient.writeBytes(parsedUser + "\n");
                     toClient.flush();
                     System.out.println("4");
@@ -78,6 +80,7 @@ public class Handler
                 } else {
                     toClient.writeBytes("7\n");
                     toClient.writeBytes(parsedUser + "\n");
+                    messageQueue.add(message);
                     toClient.flush();
                 }
             } else if (command.equals("userlist")) {
