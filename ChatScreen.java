@@ -134,7 +134,7 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
             case "6":
                 System.out.println("Reserved characters are present in this message, try again");
                 break;
-            case "8":
+            case "7":
                 displayMessage(message); // Successfully sent message
                 break;
             default:
@@ -143,17 +143,20 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
     }
 
     private void sendBroadcastMessage(String message) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        String time = sdf.format(new Date());
-        String broadcastMessage = "broadcast<" + username + "," + time + "," + message + ">\n";
+        //SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        //String time = sdf.format(new Date());
+        //String broadcastMessage = "broadcast<" + username + "," + time + "," + message + ">";
+        String broadcastMessage = "broadcast<" + message + ">";
         writer.println(broadcastMessage);
-
+/*
         try {
             String responseCode = reader.readLine();
             broadcastChecker(responseCode, message);
         } catch (IOException e) {
             System.out.println("Error sending broadcast message: " + e.getMessage());
         }
+        */
+
     }
 
     public static void main(String[] args) {

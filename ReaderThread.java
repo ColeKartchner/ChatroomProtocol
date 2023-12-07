@@ -22,12 +22,13 @@ public class ReaderThread implements Runnable
         try {
             fromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
 
-
+            screen.displayMessage("Reader thread good");
             while (true) {
                 String message = fromServer.readLine();
                 
                 // now display it on the display area
                 screen.displayMessage(message);
+
             }
         }
         catch (IOException ioe) { System.out.println(ioe); }
