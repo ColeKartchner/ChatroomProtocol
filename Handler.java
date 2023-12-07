@@ -23,6 +23,7 @@ public class Handler
             // fromChatscreen = new BufferedReader();
             BufferedReader fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
             fromChatscreen = new BufferedInputStream(client.getInputStream());
+            BufferedWriter clientWriter = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
 
             String message = fromClient.readLine();
             int startIndex = message.indexOf('<');
@@ -49,7 +50,10 @@ public class Handler
                     toClient.flush();
                 } else {
                     toClient.writeBytes("4\n");
+                    System.out.println(clientWriter);
+                    dataOutputList.add(clientWriter);
                     //store BWriter in an ArrayList
+                    //dataOutputList.add(clientWriter, parsedUser);
                     toClient.writeBytes(parsedUser + "\n");
                     toClient.flush();
                     System.out.println("4");
@@ -81,6 +85,7 @@ public class Handler
                     toClient.writeBytes("7\n");
                     toClient.writeBytes(parsedUser + "\n");
                     messageQueue.add(message);
+                    System.out.println(messageQueue);
                     toClient.flush();
                 }
             } else if (command.equals("userlist")) {
