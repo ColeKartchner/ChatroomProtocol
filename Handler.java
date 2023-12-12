@@ -19,7 +19,7 @@ public class Handler
                 byte[] buffer = new byte[BUFFER_SIZE];
                 // This toClient will write back whatever numberCode the username produces back to ChatScreen
                 toClient = new DataOutputStream(client.getOutputStream());
-                dataOutputList.add(toClient);
+                // dataOutputList.add(toClient);
                 // This fromChatscreen reads in the username sent by ChatScreen
                 // fromChatscreen = new BufferedReader();
                 BufferedReader fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -51,7 +51,7 @@ public class Handler
                         toClient.flush();
                     } else {
                         toClient.writeBytes("4\n");
-                        dataOutputList.add(clientWriter);
+                        dataOutputList.add(toClient);
                         //store BWriter in an ArrayList
                         //dataOutputList.add(clientWriter, parsedUser);
                         toClient.writeBytes(parsedUser + "\n");
@@ -85,6 +85,7 @@ public class Handler
                         toClient.writeBytes(parsedUser + "\n");
                         messageQueue.add(message);
                         toClient.flush();
+                        System.out.println("Added message:" + message);
                     }
                 } else if (command.equals("userlist")) {
                     toClient.writeBytes(clientUsernames + "\n");
