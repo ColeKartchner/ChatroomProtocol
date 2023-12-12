@@ -24,18 +24,18 @@ public class ReaderThread implements Runnable {
 
             screen.displayMessage("Reader thread good");
             while (true) {
-                String bCode = fromServer.readLine();
                 String message = fromServer.readLine();
-                broadcastChecker(bCode, message);
+                System.out.println(message);
+                broadcastChecker(message);
                 // now display it on the display area
-                screen.displayMessage(message);
+                // screen.displayMessage(message);
 
             }
         }
         catch (IOException ioe) { System.out.println(ioe); }
 
     }
-    private void broadcastChecker(String broadcastCode, String broadcastMessage) {
+    private void broadcastChecker(String broadcastCode) {
 
             switch (broadcastCode) {
                 case "5":
@@ -45,10 +45,10 @@ public class ReaderThread implements Runnable {
                     System.out.println("Reserved characters are present in this message, try again");
                     break;
                 case "7":
-                    screen.displayMessage(broadcastMessage); // Successfully sent message
+                    // screen.displayMessage(broadcastMessage); // Successfully sent message
                     break;
                 default:
-                    System.out.println("Unknown response during broadcast");
+                    screen.displayMessage(broadcastCode);
             }
         }
     }
