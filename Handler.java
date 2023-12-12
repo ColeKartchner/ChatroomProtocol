@@ -45,20 +45,17 @@ public class Handler
                         toClient.writeBytes("3\n");
                         toClient.writeBytes(parsedUser + "\n");
                         toClient.flush();
-                        System.out.println("anything");
                     } else if (clientUsernames.contains(parsedUser)) {
                         toClient.writeBytes("1\n");
                         toClient.writeBytes(parsedUser + "\n");
                         toClient.flush();
                     } else {
                         toClient.writeBytes("4\n");
-                        System.out.println(clientWriter);
                         dataOutputList.add(clientWriter);
                         //store BWriter in an ArrayList
                         //dataOutputList.add(clientWriter, parsedUser);
                         toClient.writeBytes(parsedUser + "\n");
                         toClient.flush();
-                        System.out.println("4");
                     }
                 } else if (command.equals("private")) {
                     if (countOpenBrackets > 1 || countCloseBrackets > 1) {
@@ -87,13 +84,14 @@ public class Handler
                         toClient.writeBytes("7\n");
                         toClient.writeBytes(parsedUser + "\n");
                         messageQueue.add(message);
-                        System.out.println(messageQueue);
                         toClient.flush();
                     }
                 } else if (command.equals("userlist")) {
                     toClient.writeBytes(clientUsernames + "\n");
                 } else if (command.equals("exit")) {
+                    dataOutputList.remove(clientWriter);
                     clientUsernames.remove(parsedUser);
+                    System.out.println(dataOutputList + " " + clientUsernames);
                 }
             }
 

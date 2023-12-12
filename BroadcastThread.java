@@ -19,7 +19,6 @@ public class BroadcastThread implements Runnable
                 try {
                     while (!messageQueue.isEmpty()) {
                         String currentString = (String) messageQueue.get(0);
-                        System.out.println(currentString);
                         messageQueue.remove(0);
                         for (int j = 0; j < dataOutputList.size(); j++) {
                             DataOutputStream currentData = dataOutputList.get(j);

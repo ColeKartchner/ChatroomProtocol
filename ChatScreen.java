@@ -95,6 +95,7 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
         if (source == sendButton)
             displayText();
         else if (source == exitButton)
+            writer.println("exit<>");
             System.exit(0);
     }
 
@@ -126,37 +127,11 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
         }
     }
 
-    private void broadcastChecker(String broadcastCode, String message) {
-        switch (broadcastCode) {
-            case "5":
-                System.out.println("Message length invalid");
-                break;
-            case "6":
-                System.out.println("Reserved characters are present in this message, try again");
-                break;
-            case "7":
-                displayMessage(message); // Successfully sent message
-                break;
-            default:
-                System.out.println("Unknown response during broadcast");
-        }
-    }
-
     private void sendBroadcastMessage(String message) {
-        //SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        //String time = sdf.format(new Date());
-        //String broadcastMessage = "broadcast<" + username + "," + time + "," + message + ">";
-        String broadcastMessage = "broadcast<" + message + ">";
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String time = sdf.format(new Date());
+        String broadcastMessage = "broadcast<" + username + "," + time + "," + message + ">";
         writer.println(broadcastMessage);
-/*
-        try {
-            String responseCode = reader.readLine();
-            broadcastChecker(responseCode, message);
-        } catch (IOException e) {
-            System.out.println("Error sending broadcast message: " + e.getMessage());
-        }
-        */
-
     }
 
     public static void main(String[] args) {
