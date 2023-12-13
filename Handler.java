@@ -89,7 +89,11 @@ public class Handler
                     }
                 } else if (command.equals("userlist")) {
                     toClient.writeBytes(clientUsernames + "\n");
-                } else if (command.equals("exit")) {
+                }
+                else if (command.equals("ls")) {
+                    String userlist = String.join(",", clientUsernames);
+                    toClient.writeBytes("userlist<" + userlist + ">\n");
+                }else if (command.equals("exit")) {
                     dataOutputList.remove(clientWriter);
                     clientUsernames.remove(parsedUser);
                     System.out.println(dataOutputList + " " + clientUsernames);

@@ -83,10 +83,18 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
     public void displayText() {
         String message = sendText.getText().trim();
         if (!message.isEmpty()) {
-            sendBroadcastMessage(message);
+            if (message.equalsIgnoreCase("ls")) {
+                displayUserList();
+            } else {
+                sendBroadcastMessage(message);
+            }
             sendText.setText("");
             sendText.requestFocus();
         }
+    }
+
+    private void displayUserList() {
+        writer.println("ls<>");
     }
 
     public void actionPerformed(ActionEvent evt) {
@@ -95,8 +103,7 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
         if (source == sendButton)
             displayText();
         else if (source == exitButton)
-            writer.println("exit<>");
-            System.exit(0);
+            exitChat();
     }
 
     public void keyPressed(KeyEvent e) {
@@ -132,6 +139,16 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
         String time = sdf.format(new Date());
         String broadcastMessage = "broadcast<" + username + "," + time + "," + message + ">";
         writer.println(broadcastMessage);
+    }
+
+    private void exitChat() {
+        try {
+            writer.println("exit<" + username + ">");
+            server.close();
+            System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
