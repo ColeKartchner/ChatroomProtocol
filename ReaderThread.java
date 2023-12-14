@@ -16,60 +16,33 @@ public class ReaderThread implements Runnable {
         try {
             fromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
 
+            screen.displayMessage("Reader thread good");
             while (true) {
                 String message = fromServer.readLine();
-                if (message != null) {
-                    // ls command
-                    if (message.startsWith("userlist<")) {
-                        handleUserList(message);
-                    }
-                    // broadcast messages
-                    else if (message.startsWith("broadcast<")) {
-                        broadcastChecker(message);
-                    }
-                    // server messages?
-                    else {
-                        // Handle other messages
-                        screen.displayMessage(message);
-                    }
-                }
+                System.out.println(message);
+                broadcastChecker(message);
+                // now display it on the display area
+                // screen.displayMessage(message);
+
             }
-        } catch (IOException ioe) {
-            System.out.println(ioe);
         }
-    }
+        catch (IOException ioe) { System.out.println(ioe); }
 
-    private void handleUserList(String message) {
-        // Extract the user list and display it
-        String userList = message.substring(message.indexOf('<') + 1, message.indexOf('>'));
-        screen.displayMessage("Active Users: " + userList);
     }
-
-    private void privateChecker(String message) {
-        switch (message) {
-            case "7":
-                // Succesful PM
-                break;
-            case "9":
-                System.out.println("The user you specified isn't on the server");
-                break;
-        }
-    }
-
     private void broadcastChecker(String broadcastCode) {
 
         switch (broadcastCode) {
             case "5":
-                System.out.println("Message length invalid");
+                System.out.println("Reserved characters are present in this message, try again");
                 break;
             case "6":
-                System.out.println("Reserved characters are present in this message, try again");
+                System.out.println("Message is too long or too short, try again");
                 break;
             case "8":
                 // screen.displayMessage(broadcastMessage); // Successfully sent message
                 break;
             default:
-                // screen.displayMessage(broadcastCode);
+                screen.displayMessage(broadcastCode);
+            }
         }
     }
-}

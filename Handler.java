@@ -52,6 +52,7 @@ public class Handler
                     } else {
                         toClient.writeBytes("4\n");
                         dataOutputList.add(toClient);
+                        clientUsernames.add(parsedUser);
                         //store BWriter in an ArrayList
                         //dataOutputList.add(clientWriter, parsedUser);
                         toClient.writeBytes(parsedUser + "\n");
@@ -90,7 +91,8 @@ public class Handler
                     String userlist = String.join(",", clientUsernames);
                     toClient.writeBytes("userlist<" + userlist + ">\n");
                 }else if (command.equals("exit")) {
-                    dataOutputList.remove(clientWriter);
+                    System.out.println(toClient);
+                    dataOutputList.remove(toClient);
                     clientUsernames.remove(parsedUser);
                     System.out.println(dataOutputList + " " + clientUsernames);
                 }

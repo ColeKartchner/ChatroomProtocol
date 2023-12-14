@@ -99,7 +99,7 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
     }
 
     private void displayUserList() {
-        writer.println("ls<>");
+        writer.println("userlist<>");
     }
 
     public void actionPerformed(ActionEvent evt) {
