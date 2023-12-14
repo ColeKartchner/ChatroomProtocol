@@ -85,17 +85,15 @@ public class Handler
                     } else {
                         toClient.writeBytes("7\n");
                         toClient.writeBytes(parsedUser + "\n");
-                        messageQueue.add(message);
-                        System.out.println(toClient + " " + parsedUser);
+                        messageQueue.add(message);;
                         toClient.flush();
                     }
                 } else if (command.equals("userlist")) {
                     toClient.writeBytes(clientUsernames + "\n");
                 } else if (command.equals("exit")) {
                     dataOutputList.remove(toClient);
-                    messageQueue.add(parsedUser + " has left");
                     clientUsernames.remove(parsedUser);
-                    System.out.println(dataOutputList + " " + clientUsernames);
+                    toClient.flush();
                 }
             }
 

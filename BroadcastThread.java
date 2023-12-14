@@ -20,10 +20,8 @@ public class BroadcastThread implements Runnable
                 while (!messageQueue.isEmpty()) {
                     String currentString = (String) messageQueue.get(0);
                     messageQueue.remove(0);
-                    System.out.println("BroadThread:" + currentString);
                     for (int j = 0; j < dataOutputList.size(); j++) {
                         DataOutputStream currentData = dataOutputList.get(j);
-                        System.out.println("Connection made, " + j);
                         currentData.writeBytes(currentString + "\n");
                     }
                 }

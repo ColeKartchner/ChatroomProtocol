@@ -21,8 +21,6 @@ public class ReaderThread implements Runnable {
     public void run() {
         try {
             fromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
-
-            screen.displayMessage("Reader thread good");
             while (true) {
                 String message = fromServer.readLine();
                 // System.out.println(message);
