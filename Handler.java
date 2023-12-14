@@ -85,14 +85,16 @@ public class Handler
                         toClient.writeBytes("7\n");
                         toClient.writeBytes(parsedUser + "\n");
                         messageQueue.add(message);
+                        System.out.println(toClient + " " + parsedUser);
                         toClient.flush();
-                        System.out.println("Added message:" + message);
                     }
                 } else if (command.equals("userlist")) {
                     toClient.writeBytes(clientUsernames + "\n");
                 } else if (command.equals("exit")) {
+                    System.out.println("Parsed USER" + parsedUser);
                     dataOutputList.remove(toClient);
                     clientUsernames.remove(parsedUser);
+                    messageQueue.add(dataOutputList + " " +  clientUsernames);
                     System.out.println(dataOutputList + " " + clientUsernames);
                 }
             }

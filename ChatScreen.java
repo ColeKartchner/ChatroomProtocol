@@ -104,7 +104,7 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
         if (source == sendButton)
             displayText();
         else if (source == exitButton)
-            writer.println("exit<>");
+            writer.println("exit<" + username + ">");
         System.exit(0);
     }
 
