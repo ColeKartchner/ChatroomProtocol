@@ -60,11 +60,15 @@ public class Handler
                     }
                 } else if (command.equals("private")) {
                     if (countOpenBrackets > 1 || countCloseBrackets > 1) {
-                        toClient.writeBytes("7\n");
+                        toClient.writeBytes("6\n");
                         toClient.writeBytes(parsedUser + "\n");
                         toClient.flush();
                     } else if (parsedUser.length() > 1024) {
-                        toClient.writeBytes("9\n");
+                        toClient.writeBytes("5\n");
+                        toClient.writeBytes(parsedUser + "\n");
+                        toClient.flush();
+                    } else {
+                        toClient.writeBytes("7\n");
                         toClient.writeBytes(parsedUser + "\n");
                         toClient.flush();
                     }
@@ -78,7 +82,7 @@ public class Handler
                         toClient.writeBytes(parsedUser + "\n");
                         toClient.flush();
                     } else {
-                        toClient.writeBytes("8\n");
+                        toClient.writeBytes("7\n");
                         toClient.writeBytes(parsedUser + "\n");
                         messageQueue.add(message);
                         toClient.flush();
@@ -86,12 +90,7 @@ public class Handler
                     }
                 } else if (command.equals("userlist")) {
                     toClient.writeBytes(clientUsernames + "\n");
-                }
-                else if (command.equals("ls")) {
-                    String userlist = String.join(",", clientUsernames);
-                    toClient.writeBytes("userlist<" + userlist + ">\n");
-                }else if (command.equals("exit")) {
-                    System.out.println(toClient);
+                } else if (command.equals("exit")) {
                     dataOutputList.remove(toClient);
                     clientUsernames.remove(parsedUser);
                     System.out.println(dataOutputList + " " + clientUsernames);

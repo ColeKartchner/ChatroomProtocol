@@ -31,7 +31,7 @@ public class ChatServer
             ArrayList<DataOutputStream> dataOutputList = new ArrayList<>();
             Thread BroadcastThread = new Thread(new BroadcastThread(messageQueue, dataOutputList));
             BroadcastThread.start();
-                while (true) {
+            while (true) {
                 /**
                  * now listen for connections
                  * and service the connection in a separate thread.
@@ -50,4 +50,3 @@ public class ChatServer
         }
     }
 }
-

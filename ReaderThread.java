@@ -1,11 +1,17 @@
+/**
+ * This thread is passed a socket that it reads from. Whenever it gets input
+ * it writes it to the ChatScreen text area using the displayMessage() method.
+ */
+
 import java.io.*;
 import java.net.*;
 import javax.swing.*;
 
 public class ReaderThread implements Runnable {
-    private Socket server;
-    private BufferedReader fromServer;
-    private ChatScreen screen;
+    Socket server;
+    BufferedReader fromServer;
+    ChatScreen screen;
+
 
     public ReaderThread(Socket server, ChatScreen screen) {
         this.server = server;
@@ -19,7 +25,7 @@ public class ReaderThread implements Runnable {
             screen.displayMessage("Reader thread good");
             while (true) {
                 String message = fromServer.readLine();
-                System.out.println(message);
+                // System.out.println(message);
                 broadcastChecker(message);
                 // now display it on the display area
                 // screen.displayMessage(message);
@@ -33,16 +39,16 @@ public class ReaderThread implements Runnable {
 
         switch (broadcastCode) {
             case "5":
-                System.out.println("Reserved characters are present in this message, try again");
+                System.out.println("Message length invalid");
                 break;
             case "6":
-                System.out.println("Message is too long or too short, try again");
+                System.out.println("Reserved characters are present in this message, try again");
                 break;
-            case "8":
+            case "7":
                 // screen.displayMessage(broadcastMessage); // Successfully sent message
                 break;
             default:
                 screen.displayMessage(broadcastCode);
-            }
         }
     }
+}

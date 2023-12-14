@@ -16,20 +16,20 @@ public class BroadcastThread implements Runnable
         while (true) {
             // sleep for 1/10th of a second
             try { Thread.sleep(100); } catch (InterruptedException ignore) { }
-                try {
-                    while (!messageQueue.isEmpty()) {
-                        String currentString = (String) messageQueue.get(0);
-                        messageQueue.remove(0);
-                        System.out.println("BroadThread:" + currentString);
-                        for (int j = 0; j < dataOutputList.size(); j++) {
-                            DataOutputStream currentData = dataOutputList.get(j);
-                            System.out.println("Connection made, " + j);
-                            currentData.writeBytes(currentString + "\n");
-                        }
+            try {
+                while (!messageQueue.isEmpty()) {
+                    String currentString = (String) messageQueue.get(0);
+                    messageQueue.remove(0);
+                    System.out.println("BroadThread:" + currentString);
+                    for (int j = 0; j < dataOutputList.size(); j++) {
+                        DataOutputStream currentData = dataOutputList.get(j);
+                        System.out.println("Connection made, " + j);
+                        currentData.writeBytes(currentString + "\n");
                     }
-                } catch (IOException ioe) {
-                    System.err.println(ioe);
                 }
+            } catch (IOException ioe) {
+                System.err.println(ioe);
+            }
 
             /**
              * check if there are any messages in the Vector. If so, remove them

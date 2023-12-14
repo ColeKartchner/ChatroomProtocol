@@ -10,8 +10,6 @@ import java.util.Date;
 public class ChatScreen extends JFrame implements ActionListener, KeyListener {
     private JButton sendButton;
     private JButton exitButton;
-
-    private JButton privateButton;
     private JTextField sendText;
     private JTextArea displayArea;
     private Socket server;
@@ -32,17 +30,14 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
         sendText = new JTextField(30);
         sendButton = new JButton("Send");
         exitButton = new JButton("Exit");
-        privateButton = new JButton("PM");
 
         sendText.addKeyListener(this);
         sendButton.addActionListener(this);
         exitButton.addActionListener(this);
-        privateButton.addActionListener(this);
 
         p.add(sendText);
         p.add(sendButton);
         p.add(exitButton);
-        p.add(privateButton);
 
         getContentPane().add(p, "South");
 
@@ -90,7 +85,8 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
         if (!message.isEmpty()) {
             if (message.equalsIgnoreCase("ls")) {
                 displayUserList();
-            } else {
+            }
+            else {
                 sendBroadcastMessage(message);
             }
             sendText.setText("");
@@ -98,7 +94,7 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
         }
     }
 
-    private void displayUserList() {
+    public void displayUserList() {
         writer.println("userlist<>");
     }
 
@@ -107,10 +103,9 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
 
         if (source == sendButton)
             displayText();
-        else if (source == privateButton) {
-            displayText();
-        } else if (source == exitButton)
-            exitChat();
+        else if (source == exitButton)
+            writer.println("exit<>");
+        System.exit(0);
     }
 
     public void keyPressed(KeyEvent e) {
@@ -146,16 +141,6 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
         String time = sdf.format(new Date());
         String broadcastMessage = "broadcast<" + username + "," + time + "," + message + ">";
         writer.println(broadcastMessage);
-    }
-
-    private void exitChat() {
-        try {
-            writer.println("exit<" + username + ">");
-            server.close();
-            System.exit(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void main(String[] args) {
