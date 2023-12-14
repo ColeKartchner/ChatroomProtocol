@@ -59,15 +59,11 @@ public class Handler
                     }
                 } else if (command.equals("private")) {
                     if (countOpenBrackets > 1 || countCloseBrackets > 1) {
-                        toClient.writeBytes("6\n");
+                        toClient.writeBytes("7\n");
                         toClient.writeBytes(parsedUser + "\n");
                         toClient.flush();
                     } else if (parsedUser.length() > 1024) {
-                        toClient.writeBytes("5\n");
-                        toClient.writeBytes(parsedUser + "\n");
-                        toClient.flush();
-                    } else {
-                        toClient.writeBytes("7\n");
+                        toClient.writeBytes("9\n");
                         toClient.writeBytes(parsedUser + "\n");
                         toClient.flush();
                     }
@@ -81,7 +77,7 @@ public class Handler
                         toClient.writeBytes(parsedUser + "\n");
                         toClient.flush();
                     } else {
-                        toClient.writeBytes("7\n");
+                        toClient.writeBytes("8\n");
                         toClient.writeBytes(parsedUser + "\n");
                         messageQueue.add(message);
                         toClient.flush();

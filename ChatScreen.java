@@ -10,6 +10,8 @@ import java.util.Date;
 public class ChatScreen extends JFrame implements ActionListener, KeyListener {
     private JButton sendButton;
     private JButton exitButton;
+
+    private JButton privateButton;
     private JTextField sendText;
     private JTextArea displayArea;
     private Socket server;
@@ -30,14 +32,17 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
         sendText = new JTextField(30);
         sendButton = new JButton("Send");
         exitButton = new JButton("Exit");
+        privateButton = new JButton("PM");
 
         sendText.addKeyListener(this);
         sendButton.addActionListener(this);
         exitButton.addActionListener(this);
+        privateButton.addActionListener(this);
 
         p.add(sendText);
         p.add(sendButton);
         p.add(exitButton);
+        p.add(privateButton);
 
         getContentPane().add(p, "South");
 
@@ -102,7 +107,9 @@ public class ChatScreen extends JFrame implements ActionListener, KeyListener {
 
         if (source == sendButton)
             displayText();
-        else if (source == exitButton)
+        else if (source == privateButton) {
+            displayText();
+        } else if (source == exitButton)
             exitChat();
     }
 

@@ -19,12 +19,16 @@ public class ReaderThread implements Runnable {
             while (true) {
                 String message = fromServer.readLine();
                 if (message != null) {
-                    // Handle userlist response
+                    // ls command
                     if (message.startsWith("userlist<")) {
                         handleUserList(message);
-                    } else if (message.startsWith("broadcast<")) {
+                    }
+                    // broadcast messages
+                    else if (message.startsWith("broadcast<")) {
                         broadcastChecker(message);
-                    } else {
+                    }
+                    // server messages?
+                    else {
                         // Handle other messages
                         screen.displayMessage(message);
                     }
@@ -41,6 +45,17 @@ public class ReaderThread implements Runnable {
         screen.displayMessage("Active Users: " + userList);
     }
 
+    private void privateChecker(String message) {
+        switch (message) {
+            case "7":
+                // Succesful PM
+                break;
+            case "9":
+                System.out.println("The user you specified isn't on the server");
+                break;
+        }
+    }
+
     private void broadcastChecker(String broadcastCode) {
 
         switch (broadcastCode) {
@@ -50,7 +65,7 @@ public class ReaderThread implements Runnable {
             case "6":
                 System.out.println("Reserved characters are present in this message, try again");
                 break;
-            case "7":
+            case "8":
                 // screen.displayMessage(broadcastMessage); // Successfully sent message
                 break;
             default:
