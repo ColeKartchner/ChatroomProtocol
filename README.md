@@ -1,5 +1,5 @@
 # ChatroomProtocol
-This is a program designed to demonstrate how to design and implement your own protocol, working with the other members of our class we each implemented the same protocol detailed below:
+This is a program designed to demonstrate how to design and implement your own protocol, working with the other members of our class we each implemented the same protocol to make a chatroom that we could all connect to, the details are listed here:
 
 Chatroom Protocol
 TCP Port: 5040
