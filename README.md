@@ -1,5 +1,6 @@
 # ChatroomProtocol
 This is a program designed to demonstrate how to design and implement your own protocol, working with the other members of our class we each implemented the same protocol detailed below:
+
 Chatroom Protocol
 TCP Port: 5040
 Codes (from server)
@@ -67,9 +68,6 @@ In our clients, we should handle keyboard interrupt (ctrl + c) so that the clien
 Server userlist is updated
 I wouldn’t recommend making the server a user like we talked about, it created a huge headache. Thankfully we didn’t include this in the protocol.
 
-
 Connection opens, username is the only option
 In order to continue, we need an if statement or some kind of check that the client is past the username stage. Somehow see if the username is established.
 
-
-#End of Protocol Notes
